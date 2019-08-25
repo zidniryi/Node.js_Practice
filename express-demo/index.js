@@ -9,5 +9,10 @@ app.get('/', (req, res) => {
 app.get('/api/courses', (req, res) =>{
     res.send([1,2,3])
 })
+
+// define params
+app.get('/api/courses/:year/:moth', (req, res) =>{
+    res.send(req.query)
+})
 const port = process.env.PORT || 4001
 app.listen(port, () => console.log(`Listening on port ${port} . . . `))
