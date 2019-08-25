@@ -1,4 +1,5 @@
-var express = require('express')
+const Joi = require('@hapi/joi')
+const express = require('express')
 const app = express()
 // parse json
 /**
@@ -33,8 +34,14 @@ app.get('/api/courses/:id', (req, res) =>{
 
 // To post
 app.post('/api/courses', (req, res) => {
-    if(!req.body.name || req.body.name.length < 3){
-        res.send('Invalid Input ')
+    // Define schema
+  const schema = {
+      name: Joi.string().min(3).required()
+  }
+  const result = Joi.validate(req.body, schema)
+  // Validation
+    if(result.error){
+        res.status(400).send(result.error.details[0].message)
         return
     }
     const course = {
