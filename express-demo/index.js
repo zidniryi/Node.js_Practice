@@ -33,6 +33,10 @@ app.get('/api/courses/:id', (req, res) =>{
 
 // To post
 app.post('/api/courses', (req, res) => {
+    if(!req.body.name || req.body.name.length < 3){
+        res.send('Invalid Input ')
+        return
+    }
     const course = {
         // Adding + 1 if req success
         id: courses.length + 1,
