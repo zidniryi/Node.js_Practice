@@ -1,20 +1,31 @@
 const Joi = require('@hapi/joi')
 const express = require('express')
+const helmet = require('helmet')
+const morgan = require('morgan')
+const logger = require('./logger')
 const app = express()
 // parse json
+
+// console.log(`Node is now: ${process.env.NODE_ENV}`)
+// console.log(`app ${app.get('env')}`)
+
 /**
  * res = is response send to users
  * req = is request from users
  */
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'))
+app.use(helmet())
+if(app.get('env' === 'development')){
+    app.use(morgan('tiny'))
+    console.log("M")
+}
 
 /**
  * Create custom middleware
  */
- app.use((req, res, next) =>{
-     console.log('Logging ...')
-     next()
- })
+ app.use(logger)
 
  app.use((req, res, next) =>{
     console.log('Authentication ...')
