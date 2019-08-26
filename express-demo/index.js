@@ -27,6 +27,7 @@ app.get('/api/courses', (req, res) =>{
 
 // define params
 app.get('/api/courses/:id', (req, res) =>{
+    // If course not founds
     const course = courses.find( c => c.id === parseInt(req.params.id))
     if(!course) res.status(404).send('Course not founds')
     res.send(course)
@@ -35,15 +36,11 @@ app.get('/api/courses/:id', (req, res) =>{
 // To post
 app.post('/api/courses', (req, res) => {
     // Define schema
-  const schema = {
-      name: Joi.string().min(3).required()
-  }
-  const result = Joi.validate(req.body, schema)
-  // Validation
-    if(result.error){
-        res.status(400).send(result.error.details[0].message)
-        return
-    }
+    // Hanling invalid input
+    const { error } = validateInput(req.body)
+    // Validation
+      if(error) return res.status(400).send(result.error.details[0].message)
+
     const course = {
         // Adding + 1 if req success
         id: courses.length + 1,
@@ -54,5 +51,43 @@ app.post('/api/courses', (req, res) => {
 // Send course to the clients
     res.send(course)
 })
+
+// Put Method
+app.put('/api/courses/:id', (req, res) =>{
+    // If Not found
+    const course = courses.find( c => c.id === parseInt(req.params.id))
+    if(!course) res.status(404).send('Course not founds')
+
+    // Hanling invalid input
+     const { error } = validateInput(req.body)
+    // Validation
+      if(error) return res.status(400).send(error.details[0].message)
+      
+      course.name = req.body.name
+      res.send(course)
+})
+
+// Delete
+app.delete('/api/courses/:id', (req, res) =>{
+    // If not found
+    const course = courses.find( c => c.id === parseInt(req.params.id))
+    if(!course) res.status(404).send('Course not founds')
+
+    // Delete
+    const index = courses.indexOf(course)
+    courses.splice(index, 1)
+    // If work
+    res.send(course)
+
+})
+
+function validateInput(course) {
+    // If bad request
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+    return Joi.validate(course, schema)
+}
+
 const port = process.env.PORT || 4001
 app.listen(port, () => console.log(`Listening on port ${port} . . . `))
