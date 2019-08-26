@@ -8,6 +8,19 @@ const app = express()
  */
 app.use(express.json())
 
+/**
+ * Create custom middleware
+ */
+ app.use((req, res, next) =>{
+     console.log('Logging ...')
+     next()
+ })
+
+ app.use((req, res, next) =>{
+    console.log('Authentication ...')
+    next()
+})
+
 const courses = [
     {id: 1, name: 'node 1'},
     {id: 2, name: 'node 2'},
