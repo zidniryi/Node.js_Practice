@@ -1,24 +1,30 @@
-console.log('Before')
-getUser(1,  (user)=>{
-    getRepo(user.gitUser, (repos) =>{
-        console.log('Repos', repos)
+console.log('Before');
+getUser(1, (user) => {
+  getRepositories(user.gitHubUsername, (repos) => {
+    getCommits(repos[0], (commits) => {
+      console.log(commits);
     })
-})
-
-console.log('After')
+  })
+});
+console.log('After');
 
 function getUser(id, callback) {
-    setTimeout(() => {
-        console.log('Reading data from db ...')
-        callback({id: id, gitUser: 'zidniryi'})
-        return
-    }, 2000)
-
+  setTimeout(() => {
+    console.log('Reading a user from a database...');
+    callback({ id: id, gitHubUsername: 'mosh' });
+  }, 2000);
 }
 
-function getRepo(username, callback) {
-    setTimeout(() => {
-        callback(['repo1', 'repo2', 'repo3'])
+function getRepositories(username, callback) {
+  setTimeout(() => {
+    console.log('Calling GitHub API...');
+    callback(['repo1', 'repo2', 'repo3']);
+  }, 2000);
+}
 
-    }, 2000)
+function getCommits(repo, callback) {
+  setTimeout(() => {
+    console.log('Calling GitHub API...');
+    callback(['commit']);
+  }, 2000);
 }
