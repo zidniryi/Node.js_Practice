@@ -28,7 +28,7 @@ async function createCourse(){
     // This an Object
 const course = new Course ({
     name: 'Learn React Native',
-    author: 'zidniryi',
+    author: 'zidniryi ridwan',
     tags: ['Node', 'Express', 'MongoDB'],
     isPublished: true
     })
@@ -38,14 +38,31 @@ const course = new Course ({
 // Query Get
 async function getData(){
     try{
-     const course = await Course.find({author: 'zidniryi', isPublished: true})
-     .sort({name:1})
-     .select({name: 1, tags: 1})
+     const course = await Course
+    //  .find({isPublished: true})
+    // .find()
+    // .or([{author: 'zidniryi123', isPublished: true}])
+    // .find({price: {$gt: 10}})
+    // .find({price: {$in: [10, 20, 50]}})
+    .find({author: /.*arif*./}) 
+    .sort({name:1})
+    //  .select({name: 1, tags: 1})
      console.log(course)
     }
     catch{
         console.log(course)
     }
 }
-
+/**
+ * Note
+ * eq = equal
+ * ne = not equal
+ * gt = greater than
+ * gte = greater than or equal
+ * lt = less than
+ * lte = les than or equal
+ * in
+ * nin = not in
+ */
 getData()
+// createCourse()
