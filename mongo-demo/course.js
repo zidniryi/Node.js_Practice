@@ -47,6 +47,7 @@ async function getData(){
     .find({author: /.*arif*./}) 
     .sort({name:1})
     //  .select({name: 1, tags: 1})
+    .count()
      console.log(course)
     }
     catch{
