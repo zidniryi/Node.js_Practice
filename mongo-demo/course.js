@@ -27,7 +27,7 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse(){
     // This an Object
 const course = new Course ({
-    name: 'Learn React Native',
+    name: 'Learn Swift',
     author: 'zidniryi ridwan',
     tags: ['Node', 'Express', 'MongoDB'],
     isPublished: true
@@ -37,6 +37,8 @@ const course = new Course ({
 }
 // Query Get
 async function getData(){
+    const pageNumber = 2
+    const pageSize = 2
     try{
      const course = await Course
     //  .find({isPublished: true})
@@ -44,10 +46,12 @@ async function getData(){
     // .or([{author: 'zidniryi123', isPublished: true}])
     // .find({price: {$gt: 10}})
     // .find({price: {$in: [10, 20, 50]}})
-    .find({author: /.*arif*./}) 
+    .find({isPublished: true}) 
     .sort({name:1})
     //  .select({name: 1, tags: 1})
-    .count()
+    .skip((pageNumber - 1) * pageSize)
+    .limit(pageSize)
+    // .count()
      console.log(course)
     }
     catch{
