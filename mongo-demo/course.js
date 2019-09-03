@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 // Connect MongoDB at default port 27017.
-mongoose.connect('mongodb://localhost:27017/courses', {
+mongoose.connect('mongodb://localhost:27017/mongo-exercises', {
     useNewUrlParser: true,
     useCreateIndex: true,
 }, (err) => {
@@ -49,8 +49,8 @@ async function getData(){
     .find({isPublished: true}) 
     .sort({name:1})
     //  .select({name: 1, tags: 1})
-    .skip((pageNumber - 1) * pageSize)
-    .limit(pageSize)
+    // .skip((pageNumber - 1) * pageSize)
+    // .limit(pageSize)
     // .count()
      console.log(course)
     }
@@ -69,5 +69,41 @@ async function getData(){
  * in
  * nin = not in
  */
-getData()
+// getData()
 // createCourse()
+
+/**
+ * Update query
+ */
+
+// async function updateDataCourse(id) {
+//     // first query
+//     // findByID
+//     // const course = await Course.findById(id)
+//     // if (!course) return
+
+//     // course.author = 'Other Person'
+//     // // Modify properties
+//     // // Save update
+//     // const result = await course.save()
+//     // return console.log(result)
+
+//     const course = await Course.findByIdAndUpdate(id, {
+//         $set: {
+//             author: 'Ryi',
+//             isPublished: false
+//         }
+//     }, {new: true})
+//     console.log(course)
+// }
+
+//  updateDataCourse('5a68fdc3615eda645bc6bdec')
+
+async function deleteCourse(isPublished){
+    const course = await Course.findOneAndRemove(isPublished)
+    console.log(course)
+
+}
+
+// deleteCourse(true)
+getData()
