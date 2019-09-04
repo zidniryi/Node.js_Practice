@@ -14,11 +14,38 @@ mongoose.connect('mongodb://localhost:27017/mongo-exercises', {
 });
 // Create schema. Schema is the model of our database
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String, 
+        required: true,
+        minlength:4},
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network']
+        },
     author: String,
-    tags: [String],
+    // Custom Validator
+    tags: {
+        type:Array,
+        validate:{
+            isAsync: true,
+            validator: function (v, callback) {
+                setTimeout(() => {
+                 const result = v && v.leght > 0    
+                callback(result)
+                }, 4000);                
+            },
+            message: 'A course must have atleat 1 tags'
+        }
+    },
     date: {type: Date, default: Date.now},
-    isPublished: Boolean
+    isPublished: Boolean,
+    price: {
+        type: Number,
+        required: function() {return this.isPublished},
+        min: 10,
+        max: 100
+    }
 })
 
 // This we create form model a Class
@@ -27,13 +54,20 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse(){
     // This an Object
 const course = new Course ({
-    name: 'Learn Swift',
+    name: 'Learn DB',
+    category: 'web',
     author: 'zidniryi ridwan',
-    tags: ['Node', 'Express', 'MongoDB'],
-    isPublished: true
+    tags: null,
+    isPublished: true,
+    price: 10000
     })
-    const result = await course.save()
-    console.log(result)
+    try {
+        const result = await course.save()
+        console.log(result)
+    } catch (error) {
+        console.log(error.message)  
+    }
+
 }
 // Query Get
 async function getData(){
@@ -106,4 +140,5 @@ async function deleteCourse(isPublished){
 }
 
 // deleteCourse(true)
-getData()
+// getData()
+createCourse()
