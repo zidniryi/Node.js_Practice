@@ -21,22 +21,14 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['web', 'mobile', 'network']
+        enum: ['web', 'mobile', 'network'],
+        lowercase: true,
+        trim: true
         },
     author: String,
     // Custom Validator
     tags: {
         type:Array,
-        validate:{
-            isAsync: true,
-            validator: function (v, callback) {
-                setTimeout(() => {
-                 const result = v && v.leght > 0    
-                callback(result)
-                }, 4000);                
-            },
-            message: 'A course must have atleat 1 tags'
-        }
     },
     date: {type: Date, default: Date.now},
     isPublished: Boolean,
@@ -44,7 +36,9 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: function() {return this.isPublished},
         min: 10,
-        max: 100
+        max: 100,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 })
 
@@ -54,12 +48,12 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse(){
     // This an Object
 const course = new Course ({
-    name: 'Learn DB',
-    category: 'web',
+    name: 'Learn Database',
+    category: 'weB',
     author: 'zidniryi ridwan',
-    tags: null,
+    tags:  ['frontend'],
     isPublished: true,
-    price: 10000
+    price: 10.9
     })
     try {
         const result = await course.save()
@@ -80,8 +74,10 @@ async function getData(){
     // .or([{author: 'zidniryi123', isPublished: true}])
     // .find({price: {$gt: 10}})
     // .find({price: {$in: [10, 20, 50]}})
-    .find({isPublished: true}) 
+    .find({_id: '5d7661732c7980194aa9c984' }) 
     .sort({name:1})
+    .select({name:1, tags:1, price:1})
+    console.log(course[0].price)
     //  .select({name: 1, tags: 1})
     // .skip((pageNumber - 1) * pageSize)
     // .limit(pageSize)
@@ -140,5 +136,5 @@ async function deleteCourse(isPublished){
 }
 
 // deleteCourse(true)
-// getData()
-createCourse()
+getData()
+// createCourse()
