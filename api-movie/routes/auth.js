@@ -1,4 +1,6 @@
+const config = require('config')
 const Joi = require('joi')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const {User} = require('../models/user')
 const express = require('express');
@@ -17,7 +19,10 @@ router.post('/', async (req, res) => {
     // Validate password from the client using method Compare
    const validPassword = await bcrypt.compare(req.body.password, user.password)
    if(!validPassword) return res.status(400).send('Invalid email or password')
-    res.send(true)
+   //  Encapsulation in mongoose
+   const token = user.generateAuthToken()
+   //  Create token 
+    res.send(token)
 });
 
 
