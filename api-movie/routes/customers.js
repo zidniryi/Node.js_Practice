@@ -1,9 +1,7 @@
+const {Customer, validate} = require('../models/customer'); 
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-const {Customer, validate}  = require('../models/customer')
-
-
 
 router.get('/', async (req, res) => {
   const customers = await Customer.find().sort('name');
@@ -55,7 +53,5 @@ router.get('/:id', async (req, res) => {
 
   res.send(customer);
 });
-
-
 
 module.exports = router; 
