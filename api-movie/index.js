@@ -16,14 +16,14 @@ const express = require('express');
 const app = express();
 // Hanlde uncaught
 process.on('uncaughtException', (ex) => {
-  console.log('WE GOT UNCAUGHT ERROR ')
   winston.error(ex.message, ex)
+  process.exit(1)
 })
 
 // Handle promise reject
 process.on('unhandledRejection', (ex) => {
-  console.log('WE GOT UNDHANLED PROMISE ')
   winston.error(ex.message, ex)
+  process.exit(1)
 })
 
 // winston.add(winston.transports.File, { filename: 'logfile.log' })
