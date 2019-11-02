@@ -14,15 +14,24 @@ const users = require('./routes/users');
 const auth = require('./routes/auth');
 const express = require('express');
 const app = express();
+// Hanlde uncaught
 process.on('uncaughtException', (ex) => {
-  console.log('WE GOT UNCAUGHT ERROR')
+  console.log('WE GOT UNCAUGHT ERROR ')
+  winston.error(ex.message, ex)
+})
+
+// Handle promise reject
+process.on('unhandledRejection', (ex) => {
+  console.log('WE GOT UNDHANLED PROMISE ')
   winston.error(ex.message, ex)
 })
 
 // winston.add(winston.transports.File, { filename: 'logfile.log' })
 winston.add(winston.transports.File, { filename: 'logging.log' })
 winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly' })
-throw new Error('Error during begins')
+
+const p = Promise.reject(new Error('Error Misereble hi'))
+p.then(() => console.log('Done'))
 
 if (!config.get('jwtPrivateKey')) {
   console.error('FATAL ERROR: jwtPrivateKey is not defined.');
