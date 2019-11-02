@@ -26,7 +26,7 @@ if (!config.get('jwtPrivateKey')) {
 
 mongoose.connect('mongodb://localhost/vidly')
   .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.error('Could not connect to MongoDB...', err));
+  .catch(err => console.error('Could not connect to MongoDB...', err, { level: 'info' }));
 
 app.use(express.json());
 app.use('/api/genres', genres);
