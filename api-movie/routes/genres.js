@@ -5,12 +5,13 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 // this is handlingerror
-const asyncMiddleware = require('../middleware/async')
+// const asyncMiddleware = require('../middleware/async')
 
 
 
 // Menit004, 09 is passing argument from async middleware
 router.get('/', async (req, res) => {
+  throw new Error('Could not genres')
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
