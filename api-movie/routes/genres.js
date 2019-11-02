@@ -1,36 +1,35 @@
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const {Genre, validate} = require('../models/genre');
+const { Genre, validate } = require('../models/genre');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
+// this is handlingerror
+const asyncMiddleware = require('../middleware/async')
 
-router.get('/', async (req, res, next) => {
 
-  try {
-    const genres = await Genre.find().sort('name');
-    res.send(genres);
-      
-  } catch (error) {
-    next(error)
-  }
+
+// Menit004, 09 is passing argument from async middleware
+router.get('/', async (req, res) => {
+  const genres = await Genre.find().sort('name');
+  res.send(genres);
 });
 
 /**
  * To Middleware is user or not
  */
 router.post('/', auth, async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let genre = new Genre({ name: req.body.name });
   genre = await genre.save();
-  
+
   res.send(genre);
 });
 
 router.put('/:id', async (req, res) => {
-  const { error } = validate(req.body); 
+  const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const genre = await Genre.findByIdAndUpdate(req.params.id, { name: req.body.name }, {
@@ -38,7 +37,7 @@ router.put('/:id', async (req, res) => {
   });
 
   if (!genre) return res.status(404).send('The genre with the given ID was not found.');
-  
+
   res.send(genre);
 });
 
