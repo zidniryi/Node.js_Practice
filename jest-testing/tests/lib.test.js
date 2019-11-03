@@ -15,3 +15,11 @@ describe('absolute', () => {
     })
 });
 
+describe('greet', () => {
+    it('should return the greeting messsage arguments ', () => {
+        const result = lib.greet('Zidniryi')
+        expect(result).toMatch(/Zidniryi/)
+        expect(result).toContain('Zidniryi')
+
+    });
+});
