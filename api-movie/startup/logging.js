@@ -5,6 +5,7 @@ require('express-async-errors')
 module.exports = function () {
     // Handle with winston
     winston.handleExceptions(
+        new winston.transports.Console({ colorize: true, prettyPrint: true }),
         new winston.transports.File({ filename: 'exceptionError.log' })
     )
 
@@ -15,7 +16,6 @@ module.exports = function () {
         throw (ex)
     })
 
-    // winston.add(winston.transports.File, { filename: 'logfile.log' })
     winston.add(winston.transports.File, { filename: 'logging.log' })
     winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/vidly' })
 }
