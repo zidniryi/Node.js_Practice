@@ -43,7 +43,7 @@ describe('Get Currencies', () => {
         expect(result).toContain('AUD')
         expect(result).toContain('USD')
 
-        // Ideal way
+        // Ideal way 
         expect(result).toEqual(expect.arrayContaining(['USD', 'AUD', 'IDR']))
     })
 });
