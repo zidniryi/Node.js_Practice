@@ -12,10 +12,10 @@ module.exports.greet = function (name) {
   return 'Welcome ' + name + 'Ok';
 }
 
-// // Testing arrays 
-// module.exports.getCurrencies = function() { 
-//   return ['USD', 'AUD', 'EUR'];
-// }
+// Testing arrays 
+module.exports.getCurrencies = function () {
+  return ['USD', 'AUD', 'IDR'];
+}
 
 // // Testing objects 
 // module.exports.getProduct = function(productId) { 

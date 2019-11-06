@@ -23,3 +23,27 @@ describe('greet', () => {
 
     });
 });
+
+describe('Get Currencies', () => {
+    it('should', () => {
+        const result = lib.getCurrencies()
+
+        // too general
+        expect(result).toBeDefined()
+        expect(result).not.toBeNull()
+
+        // To Specific
+        expect(result[0]).toBe('USD')
+        expect(result[1]).toBe('AUD')
+        expect(result[2]).toBe('IDR')
+        expect(result.length).toBe(3)
+
+        // Proper way
+        expect(result).toContain('IDR')
+        expect(result).toContain('AUD')
+        expect(result).toContain('USD')
+
+        // Ideal way
+        expect(result).toEqual(expect.arrayContaining(['USD', 'AUD', 'IDR']))
+    })
+});
