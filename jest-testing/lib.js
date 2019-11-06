@@ -17,10 +17,10 @@ module.exports.getCurrencies = function () {
   return ['USD', 'AUD', 'IDR'];
 }
 
-// // Testing objects 
-// module.exports.getProduct = function(productId) { 
-//   return { id: productId, price: 10 };
-// }
+// Testing objects 
+module.exports.getProduct = function (productId) {
+  return { id: productId, price: 10, category: 'zi' };
+}
 
 // // Testing exceptions 
 // module.exports.registerUser = function(username) { 
