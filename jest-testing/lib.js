@@ -22,12 +22,12 @@ module.exports.getProduct = function (productId) {
   return { id: productId, price: 10, category: 'zi' };
 }
 
-// // Testing exceptions 
-// module.exports.registerUser = function(username) { 
-//   if (!username) throw new Error('Username is required.');
+// Testing exceptions 
+module.exports.registerUser = function (username) {
+  if (!username) throw new Error('Username is required.');
 
-//   return { id: new Date().getTime(), username: username }
-// }
+  return { id: new Date().getTime(), username: username }
+}
 
 // // Mock functions 
 // module.exports.applyDiscount = function(order) { 
